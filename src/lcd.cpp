@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <LiquidCrystal.h>
 #include "pinouts.h"
+#include "config.h"
 #include "lcd.h"
 
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
@@ -14,6 +15,7 @@ void initButtons() {
 }
 
 byte readButtons() {
+  #if defined(USE_RESISTOR_LADDER)
   int buttonVal = analogRead(buttonPin);
 
   if (buttonVal < 10) {
@@ -29,4 +31,7 @@ byte readButtons() {
   } else {
     return NONE;
   }
+  #else
+  return digitalRead(buttonPin);
+  #endif
 }

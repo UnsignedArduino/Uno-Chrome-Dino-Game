@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include "lcd.h"
 #include "bitmaps.h"
+#include "config.h"
 #include "game.h"
 
 unsigned int gameTickDelay = 500;
@@ -19,6 +20,7 @@ void gameInit() {
   lcd.clear();
   lcd.noCursor();
   memset(field, SPACE, WIDTH);
+  seedRNG();
 }
 
 void startScreen() {
@@ -110,6 +112,16 @@ bool timeForCactus() {
   } else {
     return false;
   }
+}
+
+void seedRNG() {
+  #if defined(CONSTANT_SEED)
+  randomSeed(CONSTANT_SEED);
+  #else
+  pinMode(A1, INPUT);
+  pinMode(A2, INPUT);
+  randomSeed((unsigned long)analogRead(A1) * (unsigned long)analogRead(A2));
+  #endif
 }
 
 byte widthOfNum(unsigned long num) {
