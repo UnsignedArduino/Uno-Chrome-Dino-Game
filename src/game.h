@@ -21,6 +21,7 @@ void gameJump();
 void shiftFieldLeft();
 void drawField();
 bool timeForCactus();
+byte distanceToNextCacti();
 
 void seedRNG();
 byte widthOfNum(unsigned long num);

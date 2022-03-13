@@ -4,7 +4,11 @@
 #include "config.h"
 #include "game.h"
 
+#if defined(STARTING_TICK_DELAY)
+unsigned int gameTickDelay = STARTING_TICK_DELAY;
+#else
 unsigned int gameTickDelay = 500;
+#endif
 byte gameTimeInAir = 0;
 
 byte lastCactusTick = 0;
@@ -79,17 +83,10 @@ bool gameTick() {
   lcd.setCursor(WIDTH - widthOfNum(score), 0);
   lcd.print(score);
   #if defined(SERIAL_DISTANCE_CACTI)
-  byte distance = 0;
-  for (byte i = dinoX; i < WIDTH; i ++) {
-    if (field[i] == CACTUS) {
-      break;
-    }
-    distance ++;
-  }
   if (gameTimeInAir > 0) {
     Serial.println(-1);
   } else {
-    Serial.println(distance);
+    Serial.println(distanceToNextCacti());
   }
   #endif
   return true;
@@ -132,6 +129,17 @@ bool timeForCactus() {
   } else {
     return false;
   }
+}
+
+byte distanceToNextCacti() {
+  byte distance = 0;
+  for (byte i = dinoX; i < WIDTH; i ++) {
+    if (field[i] == CACTUS) {
+      break;
+    }
+    distance ++;
+  }
+  return distance;
 }
 
 void seedRNG() {

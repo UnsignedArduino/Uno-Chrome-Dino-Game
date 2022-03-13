@@ -17,3 +17,11 @@ const byte minCactiGap = 1;
 // -1 means you are jumping
 // 0 means you are dead (on a cacti)
 #define SERIAL_DISTANCE_CACTI
+
+// Automatically play the game for us
+// Very fun to watch
+// #define AUTO_PLAY
+
+// The default tick delay starts at 500
+// You might want to uncomment if you are enabling auto play
+// #define STARTING_TICK_DELAY 50
