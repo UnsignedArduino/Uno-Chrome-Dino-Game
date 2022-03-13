@@ -26,3 +26,4 @@ const byte cactus[] = {
   B00100
 };
 
+const byte SPACE = (byte)' ';
