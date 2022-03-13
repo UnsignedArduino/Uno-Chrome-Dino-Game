@@ -14,6 +14,9 @@ unsigned long score = 0;
 char field[WIDTH];
 
 void gameInit() {
+  #if defined(SERIAL_DISTANCE_CACTI)
+  Serial.begin(9600);
+  #endif
   // Doesn't like const byte* so we cast to byte*
   lcd.createChar(DINO, (byte*)dino);
   lcd.createChar(CACTUS, (byte*)cactus);
@@ -46,6 +49,9 @@ bool gameTick() {
   lcd.clear();
   shiftFieldLeft();
   if (field[dinoX] != SPACE && gameTimeInAir == 0) {
+    #if defined(SERIAL_DISTANCE_CACTI)
+    Serial.println(0);
+    #endif
     field[dinoX] = CACTUS;
     return false;
   }
@@ -72,6 +78,20 @@ bool gameTick() {
   score ++;
   lcd.setCursor(WIDTH - widthOfNum(score), 0);
   lcd.print(score);
+  #if defined(SERIAL_DISTANCE_CACTI)
+  byte distance = 0;
+  for (byte i = dinoX; i < WIDTH; i ++) {
+    if (field[i] == CACTUS) {
+      break;
+    }
+    distance ++;
+  }
+  if (gameTimeInAir > 0) {
+    Serial.println(-1);
+  } else {
+    Serial.println(distance);
+  }
+  #endif
   return true;
 }
 
