@@ -1,19 +1,41 @@
 #include <Arduino.h>
 #include <LiquidCrystal.h>
-#include "pinouts.h"
-
-const byte width = 16;
-const byte height = 2;
-
-LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+#include "lcd.h"
 
 void setup() {
-  lcd.begin(width, height);
+  initLCD();
+  initButtons();
 }
 
 void loop() {
   lcd.clear();
   lcd.home();
-  lcd.print(millis());
+  switch (readButtons()) {
+    case (UP): {
+      lcd.print("UP");
+      break;
+    }
+    case (RIGHT): {
+      lcd.print("RIGHT");
+      break;
+    }
+    case (DOWN): {
+      lcd.print("DOWN");
+      break;
+    }
+    case (LEFT): {
+      lcd.print("LEFT");
+      break;
+    }
+    case (SELECT): {
+      lcd.print("SELECT");
+      break;
+    }
+    case (NONE):
+    default: {
+      lcd.print("NONE");
+      break;
+    }
+  }
   delay(50);
 }

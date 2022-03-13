@@ -7,3 +7,6 @@ const byte d4 = 4;
 const byte d5 = 5;
 const byte d6 = 6;
 const byte d7 = 7;
+
+// Button pin, using resistor ladder, common on LCD shields
+const byte buttonPin = 0;
