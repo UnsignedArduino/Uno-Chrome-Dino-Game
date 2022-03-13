@@ -8,6 +8,8 @@ byte gameTimeInAir = 0;
 
 byte lastCactusTick = 0;
 
+unsigned long score = 0;
+
 char field[WIDTH];
 
 void gameInit() {
@@ -33,6 +35,8 @@ void startScreen() {
 void endScreen() {
   lcd.home();
   lcd.print("Game over");
+  lcd.setCursor(WIDTH - widthOfNum(score), 0);
+  lcd.print(score);
   drawField();
 }
 
@@ -63,6 +67,9 @@ bool gameTick() {
     lcd.setCursor(dinoX, HEIGHT - 1);
     lcd.write(DINO);
   }
+  score ++;
+  lcd.setCursor(WIDTH - widthOfNum(score), 0);
+  lcd.print(score);
   return true;
 }
 
@@ -103,4 +110,14 @@ bool timeForCactus() {
   } else {
     return false;
   }
+}
+
+byte widthOfNum(unsigned long num) {
+  byte width = 0;
+  unsigned long x = num;
+  while (x != 0) {
+    x = x / 10;
+    width ++;
+  }
+  return width;
 }
